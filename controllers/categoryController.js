@@ -74,6 +74,16 @@ const createCategory = asyncHandler(async (req, res) => {
         status: 404,
         data: null,
       });
+    }
+    // Check if a Category With The Same Title Already Exists
+    const existingTitle = await Category.findOne({ category_title });
+    if (existingTitle) {
+      return res.status(409).json({
+        success: false,
+        message: "Category With The Same Title Already Exists",
+        status: 409,
+        data: null,
+      });
     } else {
       const newCategory = await Category.create({
         ...req.body,

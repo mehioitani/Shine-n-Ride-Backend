@@ -53,7 +53,7 @@ app.use("/api", categoryRoute);
 app.use("/api", carouselRoute);
 // app.use("/api", blogRoutes);
 // app.use("/api", storyRoutes);
-// app.use("/api", collectionRoutes);
+// app.use("/api", collectionRoutes); 
 // app.use("/api", emailRoutes);
 
 // app.use("/api", authenticateToken ,adminRoutes);// protected routes should be like this

@@ -12,11 +12,11 @@ import logRequestBody from "./middlewares/requestBodyData.js";
 // import authRoutes from "./routes/authRoutes.js";
 // import adminRoutes from "./routes/adminRoutes.js";
 // import userRoutes from "./routes/userRoutes.js";
-// import productRoutes from "./routes/productRoutes.js";
+import serviceRoute from "./routes/serviceRoute.js";
 // import orderRoutes from "./routes/orderRoutes.js";
 import categoryRoute from "./routes/categoryRoute.js";
 import carouselRoute from "./routes/carouselRoute.js"; 
-// import blogRoutes from "./routes/blogRoutes.js";
+import reviewRoutes from "./routes/reviewRoute.js";
 // import storyRoutes from "./routes/storyRoutes.js";
 // import collectionRoutes from "./routes/collectionRoutes.js";
 // import emailRoutes from "./routes/emailRoutes.js";
@@ -46,12 +46,11 @@ app.use(express.static("./"));
 
 // all the other routes
 // app.use("/api", adminRoutes);
-// app.use("/api", userRoutes);
-// app.use("/api", productRoutes);
+app.use("/api", serviceRoute);
 // app.use("/api", orderRoutes);
 app.use("/api", categoryRoute);
 app.use("/api", carouselRoute);
-// app.use("/api", blogRoutes);
+app.use("/api", reviewRoutes);
 // app.use("/api", storyRoutes);
 // app.use("/api", collectionRoutes); 
 // app.use("/api", emailRoutes);

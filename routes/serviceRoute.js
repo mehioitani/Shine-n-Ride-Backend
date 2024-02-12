@@ -7,7 +7,7 @@ import {
   deleteService,
   deleteAllServices,
 } from "../controllers/serviceController.js";
-import upload from "../middlewares/multer.js";
+import upload from "../middlewares/cloudinary.js";
 import Protect from "../middlewares/authMiddleware.js";
 
 const router = express.Router();

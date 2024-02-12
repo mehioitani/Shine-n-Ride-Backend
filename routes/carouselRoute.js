@@ -9,19 +9,20 @@ import {
 } from "../controllers/carouselController.js";
 
 import upload from "../middlewares/multer.js";
+import Protect from '../middlewares/authMiddleware.js'
 
 const router = express.Router();
 
 router
   .route("/carousels")
   .get(getAllCarousels)
-  .post(upload.single("carousel_image"), createCarousel)
-  .delete(deleteAllCarousels);
+  .post(Protect,upload.single("carousel_image"), createCarousel)
+  .delete(Protect,deleteAllCarousels);
 
 router
   .route("/carousels/:id")
-  .put(upload.single("carousel_image"), updateCarousel)
-  .delete(deleteCarousel)
+  .put(Protect,upload.single("carousel_image"), updateCarousel)
+  .delete(Protect,deleteCarousel)
   .get(getCarouselById);
 
 export default router;

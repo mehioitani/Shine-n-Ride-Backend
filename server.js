@@ -9,16 +9,14 @@ import logRequestBody from "./middlewares/requestBodyData.js";
 // import { authenticateToken } from "./middlewares/auth.js";
 
 // Routes
-// import authRoutes from "./routes/authRoutes.js";
-// import adminRoutes from "./routes/adminRoutes.js";
-// import userRoutes from "./routes/userRoutes.js";
+
+import adminRoute from "./routes/adminRoute.js";
+
 import serviceRoute from "./routes/serviceRoute.js";
-// import orderRoutes from "./routes/orderRoutes.js";
+import orderRoute from "./routes/orderRoute.js";
 import categoryRoute from "./routes/categoryRoute.js";
 import carouselRoute from "./routes/carouselRoute.js"; 
 import reviewRoutes from "./routes/reviewRoute.js";
-// import storyRoutes from "./routes/storyRoutes.js";
-// import collectionRoutes from "./routes/collectionRoutes.js";
 // import emailRoutes from "./routes/emailRoutes.js";
 
 dotenv.config();
@@ -45,17 +43,14 @@ app.use(express.static("./"));
 // app.use("/api", authRoutes);
 
 // all the other routes
-// app.use("/api", adminRoutes);
+app.use("/api", adminRoute);
 app.use("/api", serviceRoute);
-// app.use("/api", orderRoutes);
+app.use("/api", orderRoute);
 app.use("/api", categoryRoute);
 app.use("/api", carouselRoute);
 app.use("/api", reviewRoutes);
-// app.use("/api", storyRoutes);
-// app.use("/api", collectionRoutes); 
 // app.use("/api", emailRoutes);
 
-// app.use("/api", authenticateToken ,adminRoutes);// protected routes should be like this
 
 app.listen(process.env.PORT, () =>
   console.log(`Server running on port ${process.env.PORT}`)

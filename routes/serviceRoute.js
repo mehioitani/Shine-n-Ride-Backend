@@ -7,20 +7,21 @@ import {
   deleteService,
   deleteAllServices,
 } from "../controllers/serviceController.js";
-import upload from '../middlewares/multer.js'
+import upload from "../middlewares/multer.js";
+import Protect from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
 router
   .route("/services")
   .get(getAllServices)
-  .post(upload.single("service_image"), createService)
-  .delete(deleteAllServices);
+  .post(Protect, upload.single("service_image"), createService)
+  .delete(Protect, deleteAllServices);
 
 router
   .route("/services/:id")
-  .put(upload.single("service_image"), updateService)
-  .delete(deleteService)
+  .put(Protect, upload.single("service_image"), updateService)
+  .delete(Protect, deleteService)
   .get(getServiceById);
 
 export default router;

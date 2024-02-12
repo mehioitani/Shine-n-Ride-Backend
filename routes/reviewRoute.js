@@ -7,19 +7,19 @@ import {
   deleteReview,
   deleteAllReviews,
 } from "../controllers/reviewController.js";
-import { validateReview } from "../middlewares/controllersMiddlewares/reviewMiddleware.js";
+import Protect from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
 router
   .route("/reviews")
   .get(getAllReviews)
-  .post(validateReview, createReview)
-  .delete(deleteAllReviews);
+  .post(createReview)
+  .delete(Protect, deleteAllReviews);
 
 router
   .route("/reviews/:id")
-  .put(updateReview)
+  .put(Protect, updateReview)
   .delete(deleteReview)
   .get(getReviewById);
 

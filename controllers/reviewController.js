@@ -14,6 +14,7 @@ const getAllReviews = asyncHandler(async (req, res) => {
       data: review,
     });
   } catch (error) {
+    console.log("error:", error);
     res.status(500).json({
       success: false,
       message: "Failed To Retrieve Reviews",
@@ -53,6 +54,7 @@ const getReviewById = asyncHandler(async (req, res) => {
       data: singleReview,
     });
   } catch (error) {
+    console.log("error:", error);
     res.status(500).json({
       success: false,
       message: "Failed To Retrieve The Requested Review",
@@ -66,6 +68,14 @@ const getReviewById = asyncHandler(async (req, res) => {
 const createReview = asyncHandler(async (req, res) => {
   try {
     const { rating, comment, service_title } = req.body;
+    if (!rating || !comment || !service_title) {
+      return res.status(400).json({
+        success: false,
+        message: "Please Add All Fields",
+        status: 400,
+        data: null,
+      });
+    }
 
     const service = await Service.findOne({ service_title });
 
@@ -90,6 +100,7 @@ const createReview = asyncHandler(async (req, res) => {
       data: newReview,
     });
   } catch (error) {
+    console.log("error:", error);
     res.status(500).json({
       success: false,
       message: error.message || "Failed To Create Review",
@@ -151,6 +162,7 @@ const updateReview = asyncHandler(async (req, res) => {
       data: updatedReview,
     });
   } catch (error) {
+    console.log("error:", error);
     res.status(500).json({
       success: false,
       message: "Failed To Update The Requested Review",
@@ -190,6 +202,7 @@ const deleteReview = asyncHandler(async (req, res) => {
       });
     }
   } catch (error) {
+    console.log("error:", error);
     res.status(500).json({
       success: false,
       message: "Failed To Delete The Requested Review",
@@ -205,6 +218,7 @@ const deleteAllReviews = asyncHandler(async (req, res) => {
     const review = await Review.deleteMany({});
     res.status(200).json({ message: "Delete All Reviews" });
   } catch (error) {
+    console.log("error:", error);
     res.status(500).json({ error: error.message });
   }
 });

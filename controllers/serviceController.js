@@ -15,6 +15,7 @@ const getAllServices = asyncHandler(async (req, res) => {
       data: service,
     });
   } catch (error) {
+    console.log("error:", error);
     res.status(500).json({
       success: false,
       message: "Failed To Retrieve Services",
@@ -54,6 +55,7 @@ const getServiceById = asyncHandler(async (req, res) => {
       data: singleService,
     });
   } catch (error) {
+    console.log("error:", error);
     res.status(500).json({
       success: false,
       message: "Failed To Retrieve The Requested Service",
@@ -66,6 +68,30 @@ const getServiceById = asyncHandler(async (req, res) => {
 // CREATE a new Service
 const createService = asyncHandler(async (req, res) => {
   try {
+    const service_image = req.file?.path;
+    const {
+      service_title,
+      price,
+      service_description,
+      category_title,
+      featured,
+      countInStock,
+    } = req.body;
+    if (
+      !service_title ||
+      !price ||
+      !service_description ||
+      !service_image ||
+      !category_title ||
+      !countInStock
+    ) {
+      return res.status(404).json({
+        success: false,
+        message: "Please Add All Fields",
+        status: 404,
+        data: null,
+      });
+    }
     // Check if a Service With The Same Title Already Exists
     const existingTitle = await Service.findOne({ service_title });
     if (existingTitle) {
@@ -99,7 +125,7 @@ const createService = asyncHandler(async (req, res) => {
       data: newService,
     });
   } catch (error) {
-    console.log(error);
+    console.log("error:", error);
     return res.status(500).json({
       success: false,
       message: error.message || "Failed To Create Service",
@@ -119,7 +145,7 @@ const updateService = asyncHandler(async (req, res) => {
 
   try {
     const { id } = req.params;
-    const { category_title } = req.body;
+    const { category_title, service_title } = req.body;
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         success: false,
@@ -167,14 +193,7 @@ const updateService = asyncHandler(async (req, res) => {
         },
         { new: true }
       );
-      if (!updatedService) {
-        return res.status(404).json({
-          success: false,
-          message: "Service Not Found for Update",
-          status: 404,
-          data: null,
-        });
-      }
+
       res.status(200).json({
         success: true,
         message: "Service Updated Successfully",
@@ -183,6 +202,7 @@ const updateService = asyncHandler(async (req, res) => {
       });
     }
   } catch (error) {
+    console.log("error:", error);
     res.status(500).json({
       success: false,
       message: "Failed To Update The Requested Service",
@@ -227,7 +247,7 @@ const deleteService = asyncHandler(async (req, res) => {
       data: service,
     });
   } catch (error) {
-    console.error(error);
+    console.log("error:", error);
     res.status(500).json({
       success: false,
       message: "Failed To Delete The Requested Service",
@@ -243,6 +263,7 @@ const deleteAllServices = asyncHandler(async (req, res) => {
     const service = await Service.deleteMany({});
     res.status(200).json({ message: "Delete All Services" });
   } catch (error) {
+    console.log("error:", error);
     res.status(500).json({ error: error.message });
   }
 });

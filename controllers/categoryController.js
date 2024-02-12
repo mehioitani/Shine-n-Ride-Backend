@@ -13,6 +13,7 @@ const getAllCategories = asyncHandler(async (req, res) => {
       data: category,
     });
   } catch (error) {
+    console.log("error:", error);
     res.status(500).json({
       success: false,
       message: "Failed To Retrieve Categories",
@@ -52,6 +53,7 @@ const getCategoryById = asyncHandler(async (req, res) => {
       data: singleCategory,
     });
   } catch (error) {
+    console.log("error:", error);
     res.status(500).json({
       success: false,
       message: "Failed To Retrieve The Requested Category",
@@ -75,7 +77,7 @@ const createCategory = asyncHandler(async (req, res) => {
         data: null,
       });
     }
-    // Check if a Category With The Same Title Already Exists 
+    // Check if a Category With The Same Title Already Exists
     const existingTitle = await Category.findOne({ category_title });
     if (existingTitle) {
       return res.status(409).json({
@@ -97,6 +99,7 @@ const createCategory = asyncHandler(async (req, res) => {
       });
     }
   } catch (error) {
+    console.log("error:", error);
     res.status(500).json({
       success: false,
       message: error.message || "Failed To Create Category",
@@ -114,6 +117,7 @@ const updateCategory = asyncHandler(async (req, res) => {
     category_image = req.file.path;
   }
   const { id } = req.params;
+  const { category_title } = req.body;
   try {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(404).json({
@@ -131,6 +135,15 @@ const updateCategory = asyncHandler(async (req, res) => {
         status: 404,
         data: null,
       });
+    }
+    const existedTitle = await Category.findOne({ category_title });
+    if (existedTitle) {
+      return res.status(409).json({
+        success: false,
+        message: "Category With The Same Title Already Exists",
+        status: 409,
+        data: null,
+      });
     } else {
       const updatedCategory = await Category.findByIdAndUpdate(
         req.params.id,
@@ -145,6 +158,7 @@ const updateCategory = asyncHandler(async (req, res) => {
       });
     }
   } catch (error) {
+    console.log("error:", error);
     res.status(500).json({
       success: false,
       message: "Failed To Update The Requested Category",
@@ -184,6 +198,7 @@ const deleteCategory = asyncHandler(async (req, res) => {
       });
     }
   } catch (error) {
+    console.log("error:", error);
     res.status(500).json({
       success: false,
       message: "Failed To Delete The Requested Category",
@@ -199,6 +214,7 @@ const deleteAllCategories = asyncHandler(async (req, res) => {
     const category = await Category.deleteMany({});
     res.status(200).json({ message: "Delete All Categories" });
   } catch (error) {
+    console.log("error:", error);
     res.status(500).json({ error: error.message });
   }
 });

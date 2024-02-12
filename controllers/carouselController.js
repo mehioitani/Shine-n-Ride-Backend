@@ -13,6 +13,7 @@ const getAllCarousels = asyncHandler(async (req, res) => {
       data: carousel,
     });
   } catch (error) {
+    console.log("error:", error);
     res.status(500).json({
       success: false,
       message: "Failed To Retrieve Carousels",
@@ -52,6 +53,7 @@ const getCarouselById = asyncHandler(async (req, res) => {
       data: singleCarousel,
     });
   } catch (error) {
+    console.log("error:", error);
     res.status(500).json({
       success: false,
       message: "Failed To Retrieve The Requested Carousel",
@@ -98,6 +100,7 @@ const createCarousel = asyncHandler(async (req, res) => {
       });
     }
   } catch (error) {
+    console.log("error:", error);
     res.status(500).json({
       success: false,
       message: error.message || "Failed To Create Carousel",
@@ -146,6 +149,7 @@ const updateCarousel = asyncHandler(async (req, res) => {
       });
     }
   } catch (error) {
+    console.log("error:", error);
     res.status(500).json({
       success: false,
       message: "Failed To Update The Requested Carousel",
@@ -186,6 +190,7 @@ const deleteCarousel = asyncHandler(async (req, res) => {
       });
     }
   } catch (error) {
+    console.log("error:", error);
     res.status(500).json({
       success: false,
       message: "Failed To Delete The Requested Carousel",
@@ -201,6 +206,7 @@ const deleteAllCarousels = asyncHandler(async (req, res) => {
     const carousel = await Carousel.deleteMany({});
     res.status(200).json({ message: "Delete All Carousels" });
   } catch (error) {
+    console.log("error:", error);
     res.status(500).json({ error: error.message });
   }
 });

@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-
 const serviceSchema = new mongoose.Schema(
   {
     service_title: {
@@ -30,6 +29,15 @@ const serviceSchema = new mongoose.Schema(
     },
     service_description: {
       type: String,
+    },
+    countInStock: {
+      type: Number,
+      required: true,
+      default:0,
+      validate: {
+        validator: (value) => value >= 0, // Enforce non-negative prices
+        message: "Price must be non-negative",
+      },
     },
     categoryId: {
       type: mongoose.Schema.Types.ObjectId,

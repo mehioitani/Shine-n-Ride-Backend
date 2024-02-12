@@ -7,13 +7,14 @@ import {
   deleteReview,
   deleteAllReviews,
 } from "../controllers/reviewController.js";
+import { validateReview } from "../middlewares/controllersMiddlewares/reviewMiddleware.js";
 
 const router = express.Router();
 
 router
   .route("/reviews")
   .get(getAllReviews)
-  .post(createReview)
+  .post(validateReview, createReview)
   .delete(deleteAllReviews);
 
 router

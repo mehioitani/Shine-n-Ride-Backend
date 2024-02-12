@@ -21,6 +21,16 @@ const reviewSchema = new mongoose.Schema(
   }
 );
 
+reviewSchema.pre("find", function (next) {
+  this.populate(["serviceId"]);
+  next();
+});
+
+reviewSchema.pre("findOne", function (next) {
+  this.populate(["serviceId"]);
+  next();
+});
+
 const Review = mongoose.model("Review", reviewSchema);
 
 export default Review;

@@ -1,6 +1,7 @@
 import Review from "../models/reviewModel.js";
 import mongoose from "mongoose";
 import asyncHandler from "express-async-handler";
+import Service from "../models/serviceModel.js";
 
 // GET all Reviews
 const getAllReviews = asyncHandler(async (req, res) => {
@@ -64,23 +65,30 @@ const getReviewById = asyncHandler(async (req, res) => {
 // CREATE a new Review
 const createReview = asyncHandler(async (req, res) => {
   try {
-    const { rating, comment } = req.body;
-    if (!rating || !comment) {
-      res.status(404).json({
+    const { rating, comment, service_title } = req.body;
+
+    const service = await Service.findOne({ service_title });
+
+    if (!service) {
+      return res.status(400).json({
         success: false,
-        message: "Please Add All Fields",
-        status: 404,
+        message: "Cannot Find Service",
+        status: 400,
         data: null,
       });
-    } else {
-      const newReview = await Review.create(req.body);
-      res.status(201).json({
-        success: true,
-        message: "Review Created Successfully",
-        status: 200,
-        data: newReview,
-      });
     }
+
+    const newReview = await Review.create({
+      ...req.body,
+      serviceId: service._id,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Review Created Successfully",
+      status: 201,
+      data: newReview,
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -93,8 +101,11 @@ const createReview = asyncHandler(async (req, res) => {
 
 // UPDATE a Review
 const updateReview = asyncHandler(async (req, res) => {
-  const { id } = req.params;
   try {
+    const { id } = req.params;
+    const { service_title, ...updateFields } = req.body;
+
+    // Validate the review ID
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(404).json({
         success: false,
@@ -103,6 +114,8 @@ const updateReview = asyncHandler(async (req, res) => {
         data: null,
       });
     }
+
+    // Find the existing review
     const review = await Review.findById(id);
     if (!review) {
       return res.status(404).json({
@@ -111,19 +124,32 @@ const updateReview = asyncHandler(async (req, res) => {
         status: 404,
         data: null,
       });
-    } else {
-      const updatedReview = await Review.findByIdAndUpdate(
-        req.params.id,
-        { ...req.body },
-        { new: true }
-      );
-      res.status(200).json({
-        success: true,
-        message: "Review Updated Successfully",
-        status: 200,
-        data: updatedReview,
-      });
     }
+
+    // If service_title is provided, check if the corresponding service exists
+    if (service_title) {
+      const service = await Service.findOne({ service_title });
+      if (!service) {
+        return res.status(400).json({
+          success: false,
+          message: "Cannot Find Service",
+          status: 400,
+          data: null,
+        });
+      }
+    }
+
+    // Update the review
+    const updatedReview = await Review.findByIdAndUpdate(id, updateFields, {
+      new: true,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Review Updated Successfully",
+      status: 200,
+      data: updatedReview,
+    });
   } catch (error) {
     res.status(500).json({
       success: false,

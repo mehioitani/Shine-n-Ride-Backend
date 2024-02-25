@@ -7,12 +7,12 @@ const orderSchema = new mongoose.Schema(
       required: true,
       min: 0,
     },
-    paymentMethod: {
-      type: String,
-      required: true,
-      enum: ["CreditCard", "CashOnDelivery"],
-      default: "CashOnDelivery",
-    },
+    // paymentMethod: {
+    //   type: String,
+    //   required: true,
+    //   enum: ["CreditCard", "CashOnDelivery"],
+    //   default: "CashOnDelivery",
+    // },
     isPaid: {
       type: Boolean,
       default: false,
@@ -23,7 +23,7 @@ const orderSchema = new mongoose.Schema(
     },
     deliveryCharge: {
       type: Number,
-      required: true,
+      // required: true,
       default: 0,
     },
     deliveryAddress: {
@@ -51,7 +51,7 @@ const orderSchema = new mongoose.Schema(
         type: String,
       },
     },
-    orderItems: {
+    services: {
       type: [
         {
           serviceId: {
@@ -71,8 +71,8 @@ const orderSchema = new mongoose.Schema(
         },
       ],
       validate: {
-        validator: function (orderItems) {
-          return orderItems.length > 0;
+        validator: function (services) {
+          return services.length > 0;
         },
         message: "At least one service is required.",
       },
@@ -82,12 +82,12 @@ const orderSchema = new mongoose.Schema(
 );
 
 orderSchema.pre("find", function (next) {
-  this.populate(["orderItems.serviceId"]);
+  this.populate(["services.serviceId"]);
   next();
 });
 
 orderSchema.pre("findOne", function (next) {
-  this.populate(["orderItems.serviceId"]);
+  this.populate(["services.serviceId"]);
   next();
 });
 

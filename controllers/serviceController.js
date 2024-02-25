@@ -75,7 +75,7 @@ const createService = asyncHandler(async (req, res) => {
       service_description,
       category_title,
       featured,
-      countInStock,
+      quantity,
     } = req.body;
     if (
       !service_title ||
@@ -83,7 +83,7 @@ const createService = asyncHandler(async (req, res) => {
       !service_description ||
       !service_image ||
       !category_title ||
-      !countInStock
+      !quantity
     ) {
       return res.status(404).json({
         success: false,

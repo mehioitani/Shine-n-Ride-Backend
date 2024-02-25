@@ -16,7 +16,6 @@ import orderRoute from "./routes/orderRoute.js";
 import categoryRoute from "./routes/categoryRoute.js";
 import carouselRoute from "./routes/carouselRoute.js";
 import reviewRoutes from "./routes/reviewRoute.js";
-// import emailRoutes from "./routes/emailRoutes.js";
 
 dotenv.config();
 
@@ -50,7 +49,7 @@ const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
     origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST"], 
   },
 });
 io.on("connection", (socket) => {

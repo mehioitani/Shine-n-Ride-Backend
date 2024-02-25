@@ -30,14 +30,10 @@ const serviceSchema = new mongoose.Schema(
     service_description: {
       type: String,
     },
-    countInStock: {
+    quantity: {
       type: Number,
       required: true,
-      default:0,
-      validate: {
-        validator: (value) => value >= 0, // Enforce non-negative prices
-        message: "Price must be non-negative",
-      },
+      default: 0,
     },
     categoryId: {
       type: mongoose.Schema.Types.ObjectId,

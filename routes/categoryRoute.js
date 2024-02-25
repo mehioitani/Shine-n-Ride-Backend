@@ -17,7 +17,7 @@ router
   .route("/categories")
   .get(getAllCategories)
   .post(Protect,upload.single("category_image"), createCategory)
-  .delete(Protect,deleteAllCategories);
+  .delete(deleteAllCategories);
 
 router
   .route("/categories/:id")

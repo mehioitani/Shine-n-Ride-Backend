@@ -15,7 +15,7 @@ router
   .route("/reviews")
   .get(getAllReviews)
   .post(createReview)
-  .delete(Protect, deleteAllReviews);
+  .delete(deleteAllReviews);
 
 router
   .route("/reviews/:id")

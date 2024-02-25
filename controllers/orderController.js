@@ -1,7 +1,6 @@
 import Order from "../models/orderModel.js";
 import Service from "../models/serviceModel.js";
 import mongoose from "mongoose";
-// import User from "../models/userModel.js";
 
 const createOrder = async (req, res) => {
   try {
@@ -19,7 +18,9 @@ const createOrder = async (req, res) => {
 
     const serviceChecks = services.map(async (service) => {
       const { serviceId, quantity } = service;
+      console.log(`Checking serviceId: ${serviceId}`);
       const existingService = await Service.findById(serviceId);
+      console.log(`Existing service: ${existingService}`);
       if (!existingService || existingService.quantity < quantity) {
         errorMessages.push(`Not available quantity for a service`);
       }
@@ -41,6 +42,7 @@ const createOrder = async (req, res) => {
 
     const serviceUpdates = services.map(async (service) => {
       const { serviceId, quantity } = service;
+      
       await Service.findByIdAndUpdate(serviceId, {
         $inc: { quantity: -quantity },
       });
@@ -55,6 +57,7 @@ const createOrder = async (req, res) => {
       status: 201,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       success: false,
       message: "Failed to create a new order",

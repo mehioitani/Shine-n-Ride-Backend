@@ -3,16 +3,17 @@ import mongoose from "mongoose";
 const carouselSchema = new mongoose.Schema({
   carousel_title: {
     type: String,
-    required: true,
+    required: false,
     unique: true,
   },
   carousel_subtitle: {
     type: String,
-    required: true,
+    required: false,
   },
-  carousel_image:{
+  media_file:{
   type: String,
   required: true,
+  
 }
 });
 

@@ -15,8 +15,8 @@ const router = express.Router();
 router
   .route("/services")
   .get(getAllServices)
-  .post(Protect, upload.single("service_image"), createService)
-  .delete(Protect, deleteAllServices);
+  .post(upload.single("service_image"), createService)
+  .delete(deleteAllServices);
 
 router
   .route("/services/:id")

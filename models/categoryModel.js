@@ -5,7 +5,7 @@ const categorySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  category_subtitle: {
+  category_description: {
     type: String,
     required: true,
   },

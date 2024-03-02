@@ -10,10 +10,14 @@ const reviewSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    serviceId: {
+    categoryId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: "Service",
+      ref: "Category",
+    },
+    name: {
+      type: String,
+      required: true,
     },
   },
   {
@@ -22,12 +26,12 @@ const reviewSchema = new mongoose.Schema(
 );
 
 reviewSchema.pre("find", function (next) {
-  this.populate(["serviceId"]);
+  this.populate(["categoryId"]);
   next();
 });
 
 reviewSchema.pre("findOne", function (next) {
-  this.populate(["serviceId"]);
+  this.populate(["categoryId"]);
   next();
 });
 

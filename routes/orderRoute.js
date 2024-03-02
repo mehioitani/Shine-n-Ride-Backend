@@ -5,9 +5,8 @@ import {
   getAllOrders,
   updateOrder,
   deleteOrder,
-  // deleteAllOrders,
+  deleteAllOrders,
 } from "../controllers/orderController.js";
-
 
 import Protect from "../middlewares/authMiddleware.js";
 
@@ -17,12 +16,12 @@ router
   .route("/orders")
   .get(getAllOrders)
   .post(createOrder)
-  // .delete(Protect, deleteAllOrders);
+  .delete(deleteAllOrders);
 
 router
   .route("/orders/:id")
-  .put(Protect, updateOrder)
-  .delete(Protect, deleteOrder)
+  .put(updateOrder)
+  .delete(deleteOrder)
   .get(getOrderById);
-
+ 
 export default router;

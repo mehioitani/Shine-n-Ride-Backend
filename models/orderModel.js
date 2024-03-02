@@ -4,7 +4,7 @@ const orderSchema = new mongoose.Schema(
   {
     totalAmount: {
       type: Number,
-      required: true,
+      // required: true,
       min: 0,
     },
     // paymentMethod: {
@@ -23,7 +23,6 @@ const orderSchema = new mongoose.Schema(
     },
     deliveryCharge: {
       type: Number,
-      // required: true,
       default: 0,
     },
     deliveryAddress: {
@@ -65,7 +64,6 @@ const orderSchema = new mongoose.Schema(
           },
           price: {
             type: Number,
-            required: true,
           },
 
         },

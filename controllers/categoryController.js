@@ -68,8 +68,8 @@ const createCategory = asyncHandler(async (req, res) => {
   try {
     const category_image = req.file?.path;
 
-    const { category_title, category_subtitle } = req.body;
-    if (!category_title || !category_subtitle || !category_image) {
+    const { category_title, category_description } = req.body;
+    if (!category_title || !category_description || !category_image) {
       res.status(404).json({
         success: false,
         message: "Please Add All Fields",

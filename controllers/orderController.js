@@ -1,8 +1,9 @@
+import asyncHandler from "express-async-handler";
 import Order from "../models/orderModel.js";
 import Service from "../models/serviceModel.js";
 import mongoose from "mongoose";
 
-const createOrder = async (req, res) => {
+const createOrder = asyncHandler(async (req, res) => {
   try {
     const { deliveryAddress, services } = req.body;
 
@@ -42,7 +43,7 @@ const createOrder = async (req, res) => {
 
     const serviceUpdates = services.map(async (service) => {
       const { serviceId, quantity } = service;
-      
+
       await Service.findByIdAndUpdate(serviceId, {
         $inc: { quantity: -quantity },
       });
@@ -65,9 +66,9 @@ const createOrder = async (req, res) => {
       status: 500,
     });
   }
-};
+});
 
-const getAllOrders = async (req, res) => {
+const getAllOrders = asyncHandler(async (req, res) => {
   try {
     const orders = await Order.find({}).sort({ createdAt: -1 });
     res.status(200).json({
@@ -84,9 +85,9 @@ const getAllOrders = async (req, res) => {
       status: 500,
     });
   }
-};
+});
 
-const getOrderById = async (req, res) => {
+const getOrderById = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -122,9 +123,9 @@ const getOrderById = async (req, res) => {
       status: 500,
     });
   }
-};
+});
 
-const updateOrder = async (req, res) => {
+const updateOrder = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
     const { deliveryAddress } = req.body;
@@ -171,9 +172,9 @@ const updateOrder = async (req, res) => {
       status: 500,
     });
   }
-};
+});
 
-const deleteOrder = async (req, res) => {
+const deleteOrder = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -209,6 +210,23 @@ const deleteOrder = async (req, res) => {
       status: 500,
     });
   }
-};
+});
 
-export { createOrder, getAllOrders, getOrderById, updateOrder, deleteOrder };
+const deleteAllOrders = asyncHandler(async (req, res) => {
+  try {
+    const order = await Order.deleteMany({});
+    res.status(200).json({ message: "Delete All Orders" });
+  } catch (error) {
+    console.log("error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+export {
+  createOrder,
+  getAllOrders,
+  getOrderById,
+  updateOrder,
+  deleteOrder,
+  deleteAllOrders,
+};

@@ -1,7 +1,7 @@
 import Review from "../models/reviewModel.js";
 import mongoose from "mongoose";
 import asyncHandler from "express-async-handler";
-import Service from "../models/serviceModel.js";
+import Category from "../models/categoryModel.js";
 
 // GET all Reviews
 const getAllReviews = asyncHandler(async (req, res) => {
@@ -67,8 +67,8 @@ const getReviewById = asyncHandler(async (req, res) => {
 // CREATE a new Review
 const createReview = asyncHandler(async (req, res) => {
   try {
-    const { rating, comment, service_title } = req.body;
-    if (!rating || !comment || !service_title) {
+    const { rating, comment, category_title } = req.body;
+    if (!rating || !comment || !category_title) {
       return res.status(400).json({
         success: false,
         message: "Please Add All Fields",
@@ -77,12 +77,12 @@ const createReview = asyncHandler(async (req, res) => {
       });
     }
 
-    const service = await Service.findOne({ service_title });
+    const category = await Category.findOne({ category_title });
 
-    if (!service) {
+    if (!category) {
       return res.status(400).json({
         success: false,
-        message: "Cannot Find Service",
+        message: "Cannot Find Category",
         status: 400,
         data: null,
       });
@@ -90,7 +90,7 @@ const createReview = asyncHandler(async (req, res) => {
 
     const newReview = await Review.create({
       ...req.body,
-      serviceId: service._id,
+      categoryId: category._id,
     });
 
     res.status(201).json({
@@ -114,7 +114,7 @@ const createReview = asyncHandler(async (req, res) => {
 const updateReview = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
-    const { service_title, ...updateFields } = req.body;
+    const { category_title, ...updateFields } = req.body;
 
     // Validate the review ID
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -137,13 +137,13 @@ const updateReview = asyncHandler(async (req, res) => {
       });
     }
 
-    // If service_title is provided, check if the corresponding service exists
-    if (service_title) {
-      const service = await Service.findOne({ service_title });
-      if (!service) {
+    // If category_title is provided, check if the corresponding category exists
+    if (category_title) {
+      const category = await Category.findOne({ category_title });
+      if (!category) {
         return res.status(400).json({
           success: false,
-          message: "Cannot Find Service",
+          message: "Cannot Find Category",
           status: 400,
           data: null,
         });

@@ -68,10 +68,25 @@ const getServiceById = asyncHandler(async (req, res) => {
 // CREATE a new Service
 const createService = asyncHandler(async (req, res) => {
   try {
-    const service_image = req.file?.path;
+    // const service_image = req.file ? req.file.path : "";
+    const service_image = req.files.service_image
+      ? req.files.service_image[0].path
+      : "";
+    const service_video = req.files.service_video
+      ? req.files.service_video[0].path
+      : "";
+    const leftImage = req.files["serviceDetails[leftImage]"]
+      ? req.files["serviceDetails[leftImage]"][0].path
+      : "";
+    const beforeImage = req.files["serviceDetails[beforeImage]"]
+      ? req.files["serviceDetails[beforeImage]"][0].path
+      : "";
+    const afterImage = req.files["serviceDetails[afterImage]"]
+      ? req.files["serviceDetails[afterImage]"][0].path
+      : "";
     const {
       service_title,
-      price,
+      serviceDetails,
       service_description,
       category_title,
       featured,
@@ -79,7 +94,7 @@ const createService = asyncHandler(async (req, res) => {
     } = req.body;
     if (
       !service_title ||
-      !price ||
+      
       !service_description ||
       !service_image ||
       !category_title ||
@@ -116,6 +131,13 @@ const createService = asyncHandler(async (req, res) => {
     const newService = await Service.create({
       ...req.body,
       service_image: service_image,
+      service_video: service_video,
+      serviceDetails: {
+        ...req.body.serviceDetails,
+        leftImage: leftImage,
+        beforeImage: beforeImage,
+        afterImage: afterImage,
+      },
       categoryId: category._id,
     });
     return res.status(201).json({
@@ -139,8 +161,27 @@ const createService = asyncHandler(async (req, res) => {
 const updateService = asyncHandler(async (req, res) => {
   // if u need to update a field without updating the image we check if req.file is available so we updated else we update the needed field(req.body)
   let service_image;
-  if (req.file) {
-    service_image = req.file.path;
+  let service_video;
+  let leftImage;
+  let beforeImage;
+  let afterImage;
+
+  if (req.files) {
+    service_image = req.files.service_image
+      ? req.files.service_image[0].path
+      : "";
+    service_video = req.files.service_video
+      ? req.files.service_video[0].path
+      : "";
+    leftImage = req.files["serviceDetails[leftImage]"]
+      ? req.files["serviceDetails[leftImage]"][0].path
+      : "";
+    beforeImage = req.files["serviceDetails[beforeImage]"]
+      ? req.files["serviceDetails[beforeImage]"][0].path
+      : "";
+    afterImage = req.files["serviceDetails[afterImage]"]
+      ? req.files["serviceDetails[afterImage]"][0].path
+      : "";
   }
 
   try {
@@ -189,7 +230,14 @@ const updateService = asyncHandler(async (req, res) => {
         {
           ...req.body,
           categoryId: category._id,
-          service_image: service_image,
+          service_image: service_image || service.service_image,
+          service_video: service_video || service.service_video,
+          serviceDetails: {
+            ...req.body.serviceDetails,
+            leftImage: leftImage || service.serviceDetails.leftImage,
+            beforeImage: beforeImage || service.serviceDetails.beforeImage,
+            afterImage: afterImage || service.serviceDetails.afterImage,
+          },
         },
         { new: true }
       );

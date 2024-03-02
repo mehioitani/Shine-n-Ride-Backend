@@ -8,21 +8,21 @@ import {
   deleteAllCarousels,
 } from "../controllers/carouselController.js";
 
-import upload from "../middlewares/cloudinary.js";
+import upload from "../middlewares/cloudinarySingleImage.js";
 import Protect from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
 router
   .route("/carousels")
-  .post(upload.single("media_file"), createCarousel)
+  .post(upload.single("carousel_image"), createCarousel)
   .get(getAllCarousels)
   .delete(deleteAllCarousels);
 
 router
   .route("/carousels/:id")
-  .put(Protect, upload.single("carousel_image"), updateCarousel)
-  .delete(Protect, deleteCarousel)
+  .put( upload.single("carousel_image"), updateCarousel)
+  .delete(deleteCarousel)
   .get(getCarouselById);
 
 export default router;

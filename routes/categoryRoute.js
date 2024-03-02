@@ -8,7 +8,7 @@ import {
   deleteAllCategories,
 } from "../controllers/categoryController.js";
 
-import upload from "../middlewares/cloudinary.js";
+import upload from "../middlewares/cloudinarySingleImage.js";
 import Protect from '../middlewares/authMiddleware.js'
 
 const router = express.Router();
@@ -16,13 +16,13 @@ const router = express.Router();
 router
   .route("/categories")
   .get(getAllCategories)
-  .post(Protect,upload.single("category_image"), createCategory)
+  .post(upload.single("category_image"), createCategory)
   .delete(deleteAllCategories);
 
 router
   .route("/categories/:id")
-  .put(Protect,upload.single("category_image"), updateCategory)
-  .delete(Protect,deleteCategory)
+  .put(upload.single("category_image"), updateCategory)
+  .delete(deleteCategory)
   .get(getCategoryById);
 
 export default router;

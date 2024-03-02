@@ -7,7 +7,7 @@ import {
   deleteService,
   deleteAllServices,
 } from "../controllers/serviceController.js";
-import upload from "../middlewares/cloudinary.js";
+import upload from "../middlewares/cloudinaryMultipleImage.js";
 import Protect from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
@@ -15,12 +15,12 @@ const router = express.Router();
 router
   .route("/services")
   .get(getAllServices)
-  .post(upload.single("service_image"), createService)
+  .post(upload, createService)
   .delete(deleteAllServices);
 
 router
   .route("/services/:id")
-  .put(Protect, upload.single("service_image"), updateService)
+  .put(upload, updateService)
   .delete(Protect, deleteService)
   .get(getServiceById);
 

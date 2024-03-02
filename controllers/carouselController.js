@@ -66,15 +66,15 @@ const getCarouselById = asyncHandler(async (req, res) => {
 // CREATE a new Carousel
   const createCarousel = asyncHandler(async (req, res) => {
     try {
-      console.log("hello from carousel create controller")
-      const media_file = req.file ? req.file.path : undefined;
+      // console.log("hello from carousel create controller")
+      const carousel_image = req.file ? req.file.path : undefined;
 
-      console.log('Request body:', req.body);
-      console.log('Uploaded file Create controller:', req.file);
+      // console.log('Request body:', req.body);
+      // console.log('Uploaded file Create controller:', req.file);
       // console.log('Uploaded file:', JSON.stringify(req.file, null,  2));
 
       const { carousel_title, carousel_subtitle } = req.body;
-      if (!carousel_title || !carousel_subtitle || !media_file) {
+      if (!carousel_title || !carousel_subtitle || !carousel_image) {
         res.status(404).json({
           success: false,
           message: "Please Add All Fields",
@@ -95,7 +95,7 @@ const getCarouselById = asyncHandler(async (req, res) => {
       } else {
         const newCarousel = await Carousel.create({
           ...req.body,
-          media_file: media_file,
+          carousel_image: carousel_image,
         });
         res.status(201).json({
           success: true,

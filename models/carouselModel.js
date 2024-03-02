@@ -10,7 +10,7 @@ const carouselSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  media_file:{
+  carousel_image:{
   type: String,
   required: true,
   

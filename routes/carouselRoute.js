@@ -15,14 +15,14 @@ const router = express.Router();
 
 router
   .route("/carousels")
-  .post(upload.single("carousel_image"), createCarousel)
+  .post(Protect, upload.single("carousel_image"), createCarousel)
   .get(getAllCarousels)
-  .delete(deleteAllCarousels);
+  .delete(Protect, deleteAllCarousels);
 
 router
   .route("/carousels/:id")
-  .put( upload.single("carousel_image"), updateCarousel)
-  .delete(deleteCarousel)
+  .put(Protect, upload.single("carousel_image"), updateCarousel)
+  .delete(Protect, deleteCarousel)
   .get(getCarouselById);
 
 export default router;

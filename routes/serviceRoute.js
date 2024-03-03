@@ -15,12 +15,12 @@ const router = express.Router();
 router
   .route("/services")
   .get(getAllServices)
-  .post(upload, createService)
-  .delete(deleteAllServices);
+  .post(Protect, upload, createService)
+  .delete(Protect, deleteAllServices);
 
 router
   .route("/services/:id")
-  .put(upload, updateService)
+  .put(Protect, upload, updateService)
   .delete(Protect, deleteService)
   .get(getServiceById);
 

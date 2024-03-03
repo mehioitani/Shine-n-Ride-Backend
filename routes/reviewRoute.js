@@ -15,12 +15,12 @@ router
   .route("/reviews")
   .get(getAllReviews)
   .post(createReview)
-  .delete(deleteAllReviews);
+  .delete(Protect,deleteAllReviews);
 
 router
   .route("/reviews/:id")
   .put(Protect, updateReview)
-  .delete(deleteReview)
+  .delete(Protect,deleteReview)
   .get(getReviewById);
 
 export default router;

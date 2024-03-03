@@ -16,7 +16,7 @@ router
   .route("/orders")
   .get(getAllOrders)
   .post(createOrder)
-  .delete(deleteAllOrders);
+  .delete(Protect,deleteAllOrders);
 
 router
   .route("/orders/:id")

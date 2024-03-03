@@ -9,20 +9,20 @@ import {
 } from "../controllers/categoryController.js";
 
 import upload from "../middlewares/cloudinarySingleImage.js";
-import Protect from '../middlewares/authMiddleware.js'
+import Protect from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
 router
   .route("/categories")
   .get(getAllCategories)
-  .post(upload.single("category_image"), createCategory)
-  .delete(deleteAllCategories);
+  .post(Protect, upload.single("category_image"), createCategory)
+  .delete(Protect, deleteAllCategories);
 
 router
   .route("/categories/:id")
-  .put(upload.single("category_image"), updateCategory)
-  .delete(deleteCategory)
+  .put(Protect, upload.single("category_image"), updateCategory)
+  .delete(Protect, deleteCategory)
   .get(getCategoryById);
 
 export default router;

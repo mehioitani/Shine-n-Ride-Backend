@@ -34,7 +34,7 @@ app.use(express.json());
 app.use(logRequestBody);
 app.use(express.static("./"));
 
-
+// app.get("/", (req, res) => res.json({ message: "Docker is easy" }));
 
 // Middleware to log request details
 
@@ -51,7 +51,7 @@ const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
     origin: "http://localhost:3000",
-    methods: ["GET", "POST"], 
+    methods: ["GET", "POST"],
   },
 });
 io.on("connection", (socket) => {

@@ -34,7 +34,6 @@ app.use(express.json());
 app.use(logRequestBody);
 app.use(express.static("./"));
 
-
 // Middleware to log request details
 
 // Routes
@@ -49,8 +48,9 @@ app.use("/api", reviewRoutes);
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: "https://shine-n-ride-frontend.vercel.app/",
-    methods: ["GET", "POST"],
+    origin: "*",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
   },
 });
 io.on("connection", (socket) => {
